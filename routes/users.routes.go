@@ -50,3 +50,21 @@ func GetUserHandler(c echo.Context) error {
 
 	return json.NewEncoder(c.Response()).Encode(&user)
 }
+
+func DeleteUserHandler(c echo.Context) error {
+	var user models.User
+	id := c.Param("id")
+	UserID, err := strconv.Atoi(id)
+
+	if err != nil {
+		return c.String(http.StatusBadRequest, "Invalid user id.")
+	}
+
+	if user.ID == 0 {
+		return c.String(http.StatusNotFound, "Not found user id.")
+	}
+
+	db.DB.Unscoped().Delete(&user, UserID)
+
+	return c.String(http.StatusAccepted, "User deteled.")
+}

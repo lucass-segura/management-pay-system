@@ -23,3 +23,10 @@ func CreateRolHandle(c echo.Context) error {
 	}
 	return c.JSON(http.StatusCreated, rol)
 }
+
+func GetRolesHandle(c echo.Context) error {
+	var roles []models.Role
+	db.DB.Find(&roles)
+
+	return json.NewEncoder(c.Response()).Encode(&roles)
+}
